@@ -23,6 +23,7 @@ class TestContext: public ots::OTSContext {
     if (level > level_)
       return;
 
+#ifndef EMSCRIPTEN
     if (level == 0)
       std::fprintf(stderr, "ERROR: ");
     else
@@ -31,6 +32,17 @@ class TestContext: public ots::OTSContext {
     std::vfprintf(stderr, format, va);
     std::fprintf(stderr, "\n");
     va_end(va);
+#else
+    // workaround for emscripten bug
+    if (level == 0)
+      std::printf("ERROR: ");
+    else
+      std::printf("WARNING: ");
+    va_start(va, format);
+    std::vprintf(format, va);
+    std::printf("\n");
+    va_end(va);
+#endif
   }
 
   ots::TableAction GetTableAction(uint32_t tag) {

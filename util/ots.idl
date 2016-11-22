@@ -1,0 +1,11 @@
+[Prefix="ots::"]
+interface ExpandingMemoryStream {
+  void ExpandingMemoryStream(unsigned long initial, unsigned long limit);
+  // TODO: get()
+};
+
+[Prefix="ots::"]
+interface TestContext {
+  void TestContext(unsigned long level);
+  boolean Process(ExpandingMemoryStream output, octet[] input, unsigned long length, optional unsigned long index);
+};
